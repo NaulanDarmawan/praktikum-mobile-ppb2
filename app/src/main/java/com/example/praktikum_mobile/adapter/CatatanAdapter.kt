@@ -7,11 +7,20 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.praktikum_mobile.databinding.ItemCatatanBinding
 import com.example.praktikum_mobile.entities.Catatan
 
-class CatatanAdapter(private val dataset: MutableList<Catatan>): RecyclerView.Adapter<CatatanAdapter.CatatanViewHolder>() {
+class CatatanAdapter(private val dataset: MutableList<Catatan>, private val events: CatatanItemEvents): RecyclerView.Adapter<CatatanAdapter.CatatanViewHolder>() {
+
+    interface CatatanItemEvents {
+        fun onEdit(catatan: Catatan)
+    }
+
     inner class CatatanViewHolder(val view: ItemCatatanBinding): RecyclerView.ViewHolder(view.root) {
         fun setDataKeUI(data: Catatan) {
             view.judul.text = data.judul
             view.isi.text = data.isi
+
+            view.root.setOnClickListener {
+                events.onEdit(data)
+            }
         }
     }
 
